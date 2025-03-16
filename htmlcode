@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irrelevant Chat</title>
+    <style>
+        body {
+            background-color: #333;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .chat-box {
+            width: 60%;
+            height: 60vh;
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+        .message {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background-color: #007BFF;
+            align-self: flex-end;
+            color: white;
+        }
+        .bot-message {
+            background-color: #555;
+            align-self: flex-start;
+        }
+        .input-box {
+            width: 60%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        .calculator-button {
+            width: 30px;
+            height: 30px;
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">'Helpful' AI</div>
+    <div class="chat-box" id="chatBox"></div>
+    <input type="text" class="input-box" id="chatInput" placeholder="Ask questions ONLY here" onkeypress="handleKeyPress(event)">
+    <button class="calculator-button" onclick="openCalculator()">C</button>
+    
+    <script>
+        function getIrrelevantAnswer() {
+            const responses = [
+                "Search it up yourself", "I don't know, ask Google", "Why don't you try looking it up?", 
+                "Figure it out on your own", "Not my job to answer that", "Use your brain for once",
+                "Ever heard of a search engine?", "I'm not your personal Google", "Try doing some research", 
+                "Look it up, lazy", "Ask someone else", "Do I look like Wikipedia?", "Google exists for a reason",
+                "Maybe try thinking about it?", "You have a phone, use it", "Do some digging yourself", 
+                "That's what the internet is for", "Find out the hard way", "Use your resources", "Not my problem",
+                "I'm not a search engine", "Go explore the answer yourself", "Do some independent thinking",
+                "Look it up like everyone else", "You expect me to know everything?", "I'm not your teacher",
+                "Try asking someone smarter", "You can do it, I believe in you", "Why are you asking me?",
+                "Figure it out, detective", "Google is free, you know", "Try an encyclopedia", "I'm not answering that",
+                "Do some homework first", "That's classified information", "Go on a quest for knowledge",
+                "Not in the mood to answer", "Find out yourself, it's fun", "You can solve this mystery",
+                "I'm not your information slave", "You have a whole internet to explore", "That’s a secret I’ll never tell",
+                "Think harder", "Do some critical thinking", "That’s for you to discover", "Go be a detective",
+                "You’ll appreciate it more if you find it yourself", "Use that search bar", "I'm not your encyclopedia",
+                "Self-reliance is key"
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                const input = document.getElementById("chatInput").value;
+                if (!input.trim()) return;
+                
+                const chatBox = document.getElementById("chatBox");
+                
+                const userMessage = document.createElement("div");
+                userMessage.classList.add("message", "user-message");
+                userMessage.innerText = input;
+                chatBox.appendChild(userMessage);
+                
+                const botMessage = document.createElement("div");
+                botMessage.classList.add("message", "bot-message");
+                botMessage.innerText = getIrrelevantAnswer();
+                chatBox.appendChild(botMessage);
+                
+                document.getElementById("chatInput").value = "";
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+        
+        function openCalculator() {
+            let expression = prompt("Enter a math expression:");
+            if (!expression) return;
+            try {
+                expression = expression.replace(/(\d)(\()/g, "$1*($2");
+                let result = Function("return " + expression)();
+                let offset = Math.random() < 0.5 ? 1 : 2;
+                if (result % 1 !== 0) {
+                    result += (Math.random() < 0.5 ? 0.1 : 0.2);
+                } else {
+                    result += (Math.random() < 0.5 ? offset : -offset);
+                }
+                alert(result);
+            } catch (e) {
+                alert("Invalid expression");
+            }
+        }
+    </script>
+</body>
+</html>
