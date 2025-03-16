@@ -3,27 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Irrelevant Chat</title>
+    <title>Irrelevant Chat with Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #333;
-            color: white;
-            font-family: Arial, sans-serif;
+            background-color: #327d78;
+            font-family: "Poppins", Times, serif;
+            color: #f7f7f7;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+        }
+
+        .hero {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .calc__chat {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            margin: 30px 20px;
+            width: calc(100% - 40px);
+            height: calc(100vh - 200px);
+        }
+
+        .calculator, .chatbot {
+            flex: 1;
+            padding: 30px 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calculator__container {
+            width: 100%;
+            max-width: 300px;
+            background-color: #242e3f33;
+            padding: 15px;
+            border-radius: 1px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: 2px 2px black;
+        }
+
+        .calc__display {
+            margin: 10px 3px;
+            width: 100%;
+            height: 70px;
+            font-size: 20px;
+            text-align: right;
+            padding: 15px;
+            border: 3px dashed #242e3f;
+            display: flex;
+            justify-content: center;
+        }
+
+        .calc__buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px;
+        }
+
+        .calc__name {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .btn, .btn__operator {
+            padding: 10px;
+            border: 1.5px solid #242e3f;
+            border-radius: 20px;
+            background-color: #f68887;
+            color: rgb(255, 136, 0);
+            font-family: "Poppins", Times, serif;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .btn__operator {
+            background-color: #91ccf4;
+            color: rgb(94, 255, 0);
+        }
+
+        .chatbot__container {
+            width: 100%;
+            max-width: 300px;
+            background-color: #a8a8a883;
+            padding: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chatbot {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            font-size: 20px;
+        }
+
+        .chatbox {
+            width: 270px;
+            background-color: #242e3f33;
+            border-radius: 10px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            color: #ffffff;
+        }
+
+        #chat__input {
+            gap: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            background-color: #242e3f00;
+            color: #ffffff;
+            padding: 15px;
+        }
+
+        #chat__input::placeholder {
+            color: #f7f7f7;
+            opacity: 0.7;
+        }
+
+        .chat__input button {
+            padding: 10px;
+            border: 1.5px solid #242e3f00;
+            border-radius: 50%;
+            background-color: rgb(255, 136, 0);
+            color: #ffffff;
+            font-family: "Poppins", Times, serif;
+            font-weight: 700;
+            font-size: 15px;
+            width: 40px;
+            height: 40px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
         }
+
         .title {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
         }
+
         .chat-box {
-            width: 60%;
+            width: 100%;
             height: 60vh;
-            background-color: #222;
+            background-color: #83545400;
             padding: 20px;
             border-radius: 10px;
             display: flex;
@@ -31,29 +181,35 @@
             overflow-y: auto;
             scrollbar-width: thin;
         }
+
         .message {
             max-width: 70%;
             padding: 10px;
             border-radius: 10px;
             margin: 10px 0;
             word-wrap: break-word;
+            font-size: 15px;
         }
         .user-message {
             background-color: #007BFF;
             align-self: flex-end;
             color: white;
         }
+
         .bot-message {
             background-color: #555;
             align-self: flex-start;
         }
+
         .input-box {
-            width: 60%;
+            width: 100%;
             padding: 10px;
-            margin-top: 10px;
+            margin-top: 5px; 
+            margin-bottom: 10px;
             border-radius: 5px;
             border: none;
         }
+
         .calculator-button {
             width: 30px;
             height: 30px;
@@ -68,11 +224,58 @@
     </style>
 </head>
 <body>
-    <div class="title">'Helpful' AI</div>
-    <div class="chat-box" id="chatBox"></div>
-    <input type="text" class="input-box" id="chatInput" placeholder="Ask questions ONLY here" onkeypress="handleKeyPress(event)">
-    <button class="calculator-button" onclick="openCalculator()">C</button>
-    
+    <header class="hero">
+        <h1 class="hero__title">Irrelevant Chat with Calculator</h1>
+        <p class="hero__description">A chatbot that doesn't care and a calculator that lies.</p>
+    </header>
+
+    <section class="calc__chat">
+        <!-- Calculator -->
+        <section class="calculator">
+            <div class="calculator__container">
+                <div class="calc__screen">
+                    <input type="text" class="calc__display" readonly>
+                </div>
+                <div class="calc__buttons">
+                    <button class="btn__operator">.</button>
+                    <button class="btn__operator">
+                        <i class="fas fa-backspace"></i>
+                    </button>
+                    <button class="btn__operator">(</button>
+                    <button class="btn">8</button>
+                    <button class="btn">5</button>
+                    <button class="btn">0</button>
+                    <button class="btn__operator">+</button>
+                    <button class="btn">1</button>
+                    <button class="btn">7</button>
+                    <button class="btn">4</button>
+                    <button class="btn__operator btn__equals">=</button>
+                    <button class="btn">6</button>
+                    <button class="btn">2</button>
+                    <button class="btn">9</button>
+                    <button class="btn__operator">*</button>
+                    <button class="btn__operator">/</button>
+                    <button class="btn">3</button>
+                    <button class="btn__operator">)</button>
+                    <button class="btn__operator">-</button>
+                </div>
+                <div class="calc__name">CASIO-7</div>
+            </div>
+        </section>
+
+        <!-- Chatbot -->
+        <div class="chatbot__container">
+            <section class="chatbot">
+                <div class="chatbot__header">
+                    <h2 class="chatbot__title">'Helpful' AI</h2>
+                </div>
+                <div class="chat-box" id="chatBox"></div>
+                <input type="text" class="input-box" id="chatInput" placeholder="Ask questions ONLY here" onkeypress="handleKeyPress(event)">
+                <button class="calculator-button" onclick="openCalculator()">C</button>
+            </section>
+        </div>
+    </section>
+
     <script>
         function getIrrelevantAnswer() {
             const responses = [
